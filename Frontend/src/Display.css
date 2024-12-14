@@ -1,0 +1,110 @@
+
+  
+  /* Container styles */
+  .Display-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading */
+  h3 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  /* Add List button */
+  button.AddList {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  button.AddList:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  button.AddList:active {
+    background-color: #003d80;
+  }
+  
+  /* Input container */
+  div {
+    margin-bottom: 20px;
+  }
+  
+  /* Input field */
+  input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+    outline: none;
+  }
+  
+  input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Save button */
+  button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  button:active {
+    background-color: #1e7e34;
+  }
+  
+  /* List styles */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    background: #f1f1f1;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  li:hover {
+    background: #e9e9e9;
+    cursor: pointer;
+  }
+  
+  /* No lists message */
+  p {
+    color: #888;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  

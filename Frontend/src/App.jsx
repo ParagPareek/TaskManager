@@ -5,29 +5,21 @@ import './App.css'
 import Signup from './Signup'
 import { BrowserRouter , Link, Route, Routes } from 'react-router-dom';
 import LoginPage from './LoginPage'
+import Nav from './Nav'
+import Display from './display'
 
 function App() {
   
-
+const [click,setClick]=useState(false)
   return (
     <>
       <BrowserRouter>
-    
-      <nav className="navbar">
-        <div className="navbar-left">
-          <h1>Task Manager</h1>
-        </div>
-        <div className="navbar-right">
-          <Link to={"/home"}><button className="auth-btn">home</button></Link>
-        
-          <Link to={"/login"}><button className="auth-btn">Login</button></Link>
-        
-          <Link to="/signup"> <button className="auth-btn">Sign Up</button></Link> 
-        </div>
-      </nav>
+    <Nav click={click} setClick={setClick} />
+     
 <Routes>
   <Route path='/signup' element={<Signup/>}></Route>
-  <Route path='/login' element={<LoginPage/>}></Route>
+  <Route path='/login' element={<LoginPage setClick={setClick}/>}></Route>
+ <Route path='/display' element={< Display/>}></Route>
 </Routes>
  
       

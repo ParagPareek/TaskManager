@@ -49,5 +49,5 @@ if (!matchData) {
         {expiresIn:'1h'}
      )
 console.log(token)
-res.status(200).json({ msg: "token" ,token});
+res.status(200).json({ msg: "token" ,token, _id:user._id});
 }
