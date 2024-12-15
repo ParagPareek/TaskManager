@@ -37,3 +37,20 @@ exports.getTasksForList = async (req, res) => {
         res.status(500).json({ error: "Failed to fetch tasks." });
     }
 };
+exports.updateTask = async (req, res) => {
+    const { taskId } = req.params;
+    const { listID } = req.body;
+  
+    console.log("jh");
+    try {
+        
+      const task = await TaskModel.findById(taskId);
+      task.listID = listID; 
+      await task.save();
+  
+      res.status(200).json(task);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  

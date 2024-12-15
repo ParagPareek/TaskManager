@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Display.css";
 
 const Display = () => {
@@ -89,6 +90,38 @@ const Display = () => {
     }
   };
 
+  // Handle drag-and-drop event
+  const onDragEnd = async (result) => {
+    const { source, destination, draggableId } = result;
+
+    if (!destination) return; // If dropped outside any list, do nothing
+    if (source.droppableId === destination.droppableId && source.index === destination.index)
+      return; // If dropped in the same position, do nothing
+
+    // Find source and destination lists
+    const sourceListIndex = lists.findIndex((list) => list._id === source.droppableId);
+    const destinationListIndex = lists.findIndex((list) => list._id === destination.droppableId);
+
+    if (sourceListIndex < 0 || destinationListIndex < 0) return;
+
+    // Update tasks in the frontend
+    const sourceList = lists[sourceListIndex];
+    const destinationList = lists[destinationListIndex];
+    const [movedTask] = sourceList.tasks.splice(source.index, 1);
+    destinationList.tasks.splice(destination.index, 0, movedTask);
+
+    setLists([...lists]);
+
+    // Update tasks in the backend
+    try {
+      await axios.put(`http://localhost:8080/task/update/${draggableId}`, {
+        listID: destination.droppableId,
+      });
+    } catch (error) {
+      console.error("Error moving task:", error);
+    }
+  };
+
   return (
     <div className="display-container">
       <button className="add-list-button" onClick={() => setIsAddingList(true)}>
@@ -109,7 +142,7 @@ const Display = () => {
       )}
 
       <h3>Your Lists:</h3>
-      {lists.length > 0 ? (
+      <DragDropContext onDragEnd={onDragEnd}>
         <div className="lists-wrapper">
           {lists.map((list) => (
             <div key={list._id} className="list-item">
@@ -138,23 +171,39 @@ const Display = () => {
                 </div>
               )}
 
-              <div className="tasks-container">
-                {list.tasks && list.tasks.length > 0 ? (
-                  list.tasks.map((task) => (
-                    <div key={task._id} className="task-item">
-                      {task.name}
-                    </div>
-                  ))
-                ) : (
-                  <p>No tasks for this list.</p>
+              <Droppable droppableId={list._id}>
+                {(provided) => (
+                  <div
+                    className="tasks-container"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {list.tasks && list.tasks.length > 0 ? (
+                      list.tasks.map((task, index) => (
+                        <Draggable key={task._id} draggableId={task._id} index={index}>
+                          {(provided) => (
+                            <div
+                              className="task-item"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              {task.name}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))
+                    ) : (
+                      <p>No tasks for this list.</p>
+                    )}
+                    {provided.placeholder}
+                  </div>
                 )}
-              </div>
+              </Droppable>
             </div>
           ))}
         </div>
-      ) : (
-        <p>No lists found.</p>
-      )}
+      </DragDropContext>
     </div>
   );
 };
