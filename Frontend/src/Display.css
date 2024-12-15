@@ -1,110 +1,157 @@
 
   
-  /* Container styles */
-  .Display-container {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Main Container */
+  .display-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
-  /* Heading */
+  /* Headings */
   h3 {
-    font-size: 1.5em;
-    color: #555;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
   }
   
-  /* Add List button */
-  button.AddList {
+  h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #0056b3;
+  }
+  
+  /* Add List Section */
+  .add-list-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-list-button:hover {
+    background-color: #004099;
+  }
+  
+  .add-list-container {
+    margin-top: 20px;
+  }
+  
+  .add-list-container input {
+    padding: 10px;
+    width: calc(100% - 120px);
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-list-container button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-list-container button:hover {
+    background-color: #004099;
+  }
+  
+  /* Lists Wrapper */
+  .lists-wrapper {
+    margin-top: 20px;
+  }
+  
+  .list-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .list-item button {
+    margin-top: 10px;
+    padding: 8px 15px;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: block;
-    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
   }
   
-  button.AddList:hover {
+  .list-item button:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
   }
   
-  button.AddList:active {
-    background-color: #003d80;
+  /* Task Input */
+  .task-input-container {
+    margin-top: 15px;
   }
   
-  /* Input container */
-  div {
-    margin-bottom: 20px;
-  }
-  
-  /* Input field */
-  input {
-    width: calc(100% - 20px);
+  .task-input-container input {
     padding: 10px;
+    width: calc(100% - 100px);
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
-    margin-right: 10px;
-    outline: none;
   }
   
-  input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  /* Save button */
-  button {
+  .task-input-container button {
+    padding: 10px 15px;
+    margin-left: 10px;
     background-color: #28a745;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
   }
   
-  button:hover {
+  .task-input-container button:hover {
     background-color: #218838;
-    transform: scale(1.05);
   }
   
-  button:active {
-    background-color: #1e7e34;
-  }
-  
-  /* List styles */
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  li {
-    background: #f1f1f1;
-    margin: 5px 0;
+  /* Tasks Section */
+  .tasks-container {
+    margin-top: 15px;
     padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
   }
   
-  li:hover {
-    background: #e9e9e9;
-    cursor: pointer;
-  }
-  
-  /* No lists message */
-  p {
-    color: #888;
+  .task-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
     font-size: 14px;
-    margin-top: 10px;
+  }
+  
+  .task-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Empty State */
+  p {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
   }
   
