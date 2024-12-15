@@ -4,15 +4,15 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Display.css";
 
 const Display = () => {
-  const [lists, setLists] = useState([]); // State to hold all lists
-  const [listName, setListName] = useState(""); // New list name
-  const [taskName, setTaskName] = useState(""); // New task name
-  const [activeListId, setActiveListId] = useState(null); // Active list ID for task input
-  const [isAddingList, setIsAddingList] = useState(false); // Toggle for list creation
+  const [lists, setLists] = useState([]); 
+  const [listName, setListName] = useState(""); 
+  const [taskName, setTaskName] = useState("");
+  const [activeListId, setActiveListId] = useState(null); 
+  const [isAddingList, setIsAddingList] = useState(false); 
 
-  const userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
+  const userId = localStorage.getItem("userId"); 
 
-  // Fetch all lists for the user
+  
   const fetchLists = async () => {
     if (!userId) {
       console.error("User ID not found.");
@@ -26,7 +26,7 @@ const Display = () => {
     }
   };
 
-  // Fetch tasks for a specific list
+  
   const fetchTasks = async (listID) => {
     try {
       const response = await axios.get(`http://localhost:8080/task/${listID}`);
@@ -42,17 +42,17 @@ const Display = () => {
 
   useEffect(() => {
     fetchLists();
-  }, []); // Fetch lists when component mounts
+  }, []); 
 
   useEffect(() => {
     if (lists.length > 0) {
       lists.forEach((list) => {
-        fetchTasks(list._id); // Fetch tasks for each list after lists are fetched
+        fetchTasks(list._id); 
       });
     }
-  }, [lists]); // Fetch tasks only when lists change
+  }, [lists]); 
 
-  // Add a new list
+ 
   const addList = async () => {
     if (!listName.trim()) {
       alert("List name cannot be empty.");
@@ -71,7 +71,7 @@ const Display = () => {
     }
   };
 
-  // Add a new task to a specific list
+
   const addTask = async (listID) => {
     if (!taskName.trim()) {
       alert("Task name cannot be empty.");
@@ -90,21 +90,20 @@ const Display = () => {
     }
   };
 
-  // Handle drag-and-drop event
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
 
-    if (!destination) return; // If dropped outside any list, do nothing
+    if (!destination) return; 
     if (source.droppableId === destination.droppableId && source.index === destination.index)
-      return; // If dropped in the same position, do nothing
+      return;
 
-    // Find source and destination lists
+  
     const sourceListIndex = lists.findIndex((list) => list._id === source.droppableId);
     const destinationListIndex = lists.findIndex((list) => list._id === destination.droppableId);
 
     if (sourceListIndex < 0 || destinationListIndex < 0) return;
 
-    // Update tasks in the frontend
+   
     const sourceList = lists[sourceListIndex];
     const destinationList = lists[destinationListIndex];
     const [movedTask] = sourceList.tasks.splice(source.index, 1);
@@ -112,7 +111,7 @@ const Display = () => {
 
     setLists([...lists]);
 
-    // Update tasks in the backend
+    
     try {
       await axios.put(`http://localhost:8080/task/update/${draggableId}`, {
         listID: destination.droppableId,
