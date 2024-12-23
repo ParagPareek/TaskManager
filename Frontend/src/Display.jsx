@@ -12,7 +12,7 @@ const Display = () => {
 
   const userId = localStorage.getItem("userId"); 
 
-  
+  // Fetch all lists for the user
   const fetchLists = async () => {
     if (!userId) {
       console.error("User ID not found.");
@@ -26,7 +26,7 @@ const Display = () => {
     }
   };
 
-  
+  // Fetch tasks for each list
   const fetchTasks = async (listID) => {
     try {
       const response = await axios.get(`http://localhost:8080/task/${listID}`);
@@ -36,23 +36,25 @@ const Display = () => {
         )
       );
     } catch (error) {
-      console.error(`Error fetching tasks for list ${listID}:`, error);
+      console.log(error);
     }
   };
 
+  // On component mount, fetch lists
   useEffect(() => {
     fetchLists();
-  }, []); 
+  }, []);
 
+  // Fetch tasks for each list after lists are updated
   useEffect(() => {
     if (lists.length > 0) {
       lists.forEach((list) => {
-        fetchTasks(list._id); 
+        fetchTasks(list._id);
       });
     }
-  }, [lists]); 
+  }, [lists]);
 
- 
+  // Add a new list
   const addList = async () => {
     if (!listName.trim()) {
       alert("List name cannot be empty.");
@@ -71,7 +73,7 @@ const Display = () => {
     }
   };
 
-
+  // Add a new task
   const addTask = async (listID) => {
     if (!taskName.trim()) {
       alert("Task name cannot be empty.");
@@ -90,34 +92,39 @@ const Display = () => {
     }
   };
 
+  // Handle drag-and-drop task movement
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
 
-    if (!destination) return; 
+    if (!destination) return; // If the task is dropped outside any list, do nothing
     if (source.droppableId === destination.droppableId && source.index === destination.index)
-      return;
+      return; // If the task has not moved, do nothing
 
-  
+    // Find source and destination lists
     const sourceListIndex = lists.findIndex((list) => list._id === source.droppableId);
     const destinationListIndex = lists.findIndex((list) => list._id === destination.droppableId);
 
-    if (sourceListIndex < 0 || destinationListIndex < 0) return;
+    if (sourceListIndex < 0 || destinationListIndex < 0) return; // If the lists are not found, do nothing
 
-   
     const sourceList = lists[sourceListIndex];
     const destinationList = lists[destinationListIndex];
+
+    // Move the task in local state (optimistic UI update)
     const [movedTask] = sourceList.tasks.splice(source.index, 1);
     destinationList.tasks.splice(destination.index, 0, movedTask);
 
+    // Update local state
     setLists([...lists]);
 
-    
+    // Make API call to update task's listID on the server
     try {
       await axios.put(`http://localhost:8080/task/update/${draggableId}`, {
         listID: destination.droppableId,
       });
     } catch (error) {
-      console.error("Error moving task:", error);
+      console.error("Error updating task location:", error);
+      // If the API call fails, revert the optimistic update
+      fetchTasks(source.droppableId);
     }
   };
 
