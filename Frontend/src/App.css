@@ -1,4 +1,3 @@
-/* src/components/Navbar.css */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -8,9 +7,31 @@
   padding: 10px 20px;
 }
 
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
 .navbar-left h1 {
   margin: 0;
   font-size: 24px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 15px;
+  margin-left: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none; /* Remove underline from links */
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff; /* Change color on hover */
 }
 
 .navbar-right {
@@ -32,3 +53,4 @@
 .auth-btn:hover {
   background-color: #0056b3;
 }
+

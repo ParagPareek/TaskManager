@@ -52,4 +52,29 @@
   .login-button:hover {
     background-color: #45a049;
   }
-  
+  /* forgotpass word */
+  /* Forgot Password Link Class */
+.forgot-password-link {
+  font-size: 16px;
+  color: #0072ff; /* Bright blue color for the link */
+  text-decoration: none; /* Remove underline */
+  font-weight: 500;
+  transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transition effect */
+}
+
+.forgot-password-link:hover {
+  color: #0056b3; /* Darker blue color on hover */
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.forgot-password-link:focus {
+  outline: none; /* Remove outline on focus */
+  text-decoration: underline; /* Keep underline on focus */
+}
+
+/* Optional: Adding some padding and margin to improve spacing */
+.forgot-password-link {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 5px 0;
+}

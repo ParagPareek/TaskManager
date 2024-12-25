@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import "./Display.css";
 
 const Display = () => {
-  const [lists, setLists] = useState([]); 
-  const [listName, setListName] = useState(""); 
+  const [lists, setLists] = useState([]);
+  const [listName, setListName] = useState("");
   const [taskName, setTaskName] = useState("");
-  const [activeListId, setActiveListId] = useState(null); 
-  const [isAddingList, setIsAddingList] = useState(false); 
+  const [activeListId, setActiveListId] = useState(null);
+  const [isAddingList, setIsAddingList] = useState(false);
 
-  const userId = localStorage.getItem("userId"); 
+  const userId = localStorage.getItem("userId");
 
   // Fetch all lists for the user
   const fetchLists = async () => {
@@ -40,12 +39,10 @@ const Display = () => {
     }
   };
 
-  // On component mount, fetch lists
   useEffect(() => {
     fetchLists();
   }, []);
 
-  // Fetch tasks for each list after lists are updated
   useEffect(() => {
     if (lists.length > 0) {
       lists.forEach((list) => {
@@ -92,39 +89,30 @@ const Display = () => {
     }
   };
 
-  // Handle drag-and-drop task movement
-  const onDragEnd = async (result) => {
-    const { source, destination, draggableId } = result;
+  // Handle list color update
+  const updateListColor = async (listID, newColor) => {
+    // Update color in the local state first for immediate feedback
+    setLists((prevLists) =>
+      prevLists.map((list) =>
+        list._id === listID ? { ...list, color: newColor } : list
+      )
+    );
 
-    if (!destination) return; // If the task is dropped outside any list, do nothing
-    if (source.droppableId === destination.droppableId && source.index === destination.index)
-      return; // If the task has not moved, do nothing
-
-    // Find source and destination lists
-    const sourceListIndex = lists.findIndex((list) => list._id === source.droppableId);
-    const destinationListIndex = lists.findIndex((list) => list._id === destination.droppableId);
-
-    if (sourceListIndex < 0 || destinationListIndex < 0) return; // If the lists are not found, do nothing
-
-    const sourceList = lists[sourceListIndex];
-    const destinationList = lists[destinationListIndex];
-
-    // Move the task in local state (optimistic UI update)
-    const [movedTask] = sourceList.tasks.splice(source.index, 1);
-    destinationList.tasks.splice(destination.index, 0, movedTask);
-
-    // Update local state
-    setLists([...lists]);
-
-    // Make API call to update task's listID on the server
+    // Send color update to the server
     try {
-      await axios.put(`http://localhost:8080/task/update/${draggableId}`, {
-        listID: destination.droppableId,
+      await axios.put("http://localhost:8080/list/updatecolor", {
+        listID,
+        color: newColor,
       });
+      console.log("Color updated on the server");
     } catch (error) {
-      console.error("Error updating task location:", error);
-      // If the API call fails, revert the optimistic update
-      fetchTasks(source.droppableId);
+      console.error("Error updating color:", error.response?.data || error.message);
+      // Revert color change if error occurs
+      setLists((prevLists) =>
+        prevLists.map((list) =>
+          list._id === listID ? { ...list, color: list.color } : list
+        )
+      );
     }
   };
 
@@ -148,68 +136,56 @@ const Display = () => {
       )}
 
       <h3>Your Lists:</h3>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="lists-wrapper">
-          {lists.map((list) => (
-            <div key={list._id} className="list-item">
-              <h4>{list.name}</h4>
-              <button
-                onClick={() => {
-                  if (activeListId === list._id) {
-                    setActiveListId(null);
-                  } else {
-                    setActiveListId(list._id);
-                  }
-                }}
-              >
-                {activeListId === list._id ? "Cancel" : "Add Task"}
-              </button>
+      <div className="lists-wrapper">
+        {lists.map((list) => (
+          <div key={list._id} className="list-item" style={{ backgroundColor: list.color }}>
+            <h4>{list.name}</h4>
 
-              {activeListId === list._id && (
-                <div className="task-input-container">
-                  <input
-                    type="text"
-                    value={taskName}
-                    onChange={(e) => setTaskName(e.target.value)}
-                    placeholder="Enter task name"
-                  />
-                  <button onClick={() => addTask(list._id)}>Save Task</button>
-                </div>
-              )}
+            <label>Change Color:</label>
+            <input
+              type="color"
+              value={list.color || "#FFFFFF"}  // Default to white if no color
+              onChange={(e) => updateListColor(list._id, e.target.value)}
+            />
 
-              <Droppable droppableId={list._id}>
-                {(provided) => (
-                  <div
-                    className="tasks-container"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {list.tasks && list.tasks.length > 0 ? (
-                      list.tasks.map((task, index) => (
-                        <Draggable key={task._id} draggableId={task._id} index={index}>
-                          {(provided) => (
-                            <div
-                              className="task-item"
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              {task.name}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))
-                    ) : (
-                      <p>No tasks for this list.</p>
-                    )}
-                    {provided.placeholder}
+            <button
+              onClick={() => {
+                if (activeListId === list._id) {
+                  setActiveListId(null);
+                } else {
+                  setActiveListId(list._id);
+                }
+              }}
+            >
+              {activeListId === list._id ? "Cancel" : "Add Task"}
+            </button>
+
+            {activeListId === list._id && (
+              <div className="task-input-container">
+                <input
+                  type="text"
+                  value={taskName}
+                  onChange={(e) => setTaskName(e.target.value)}
+                  placeholder="Enter task name"
+                />
+                <button onClick={() => addTask(list._id)}>Save Task</button>
+              </div>
+            )}
+
+            <div className="tasks-container">
+              {list.tasks && list.tasks.length > 0 ? (
+                list.tasks.map((task) => (
+                  <div key={task._id} className="task-item">
+                    {task.name}
                   </div>
-                )}
-              </Droppable>
+                ))
+              ) : (
+                <p>No tasks for this list.</p>
+              )}
             </div>
-          ))}
-        </div>
-      </DragDropContext>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

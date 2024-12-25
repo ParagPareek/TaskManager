@@ -53,4 +53,13 @@ exports.updateTask = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
-  
+  exports.getAllTasks = async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const tasks = await TaskModel.find({ userId });
+      res.status(200).json(tasks);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+      res.status(500).json({ error: 'Failed to fetch tasks' });
+    }
+  };

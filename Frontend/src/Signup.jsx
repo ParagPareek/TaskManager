@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./Signup.css"; 
-import { useNavigate } from "react-router-dom"; 
 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Signup = () => {
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,19 +22,18 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/new/enter",formData) 
-      alert(" hogaya");
-  } catch (error) {
-      console.log(error)
-      alert("error to post data");
-  }
-  setFormData(  {
-    name: "",
-    email: "",
-    password: ""
-  })
-
-    
+      const response = await axios.post("http://localhost:8080/new/enter", formData);
+      alert("Signup successful");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+      });
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Error submitting data");
+    }
   };
 
   return (

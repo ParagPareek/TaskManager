@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const LoginPage = ({setClick}) => {
@@ -70,6 +70,11 @@ const LoginPage = ({setClick}) => {
             />
           </div>
           <button type="submit" className="login-button">Login</button>
+         
+          <Link to="/forgotpassword" className="forgot-password-link">
+  Forgot password
+</Link>
+
         </form>
       </div>
     </div>

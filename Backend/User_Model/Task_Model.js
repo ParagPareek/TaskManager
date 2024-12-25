@@ -7,7 +7,13 @@ const form2=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Lists",
         required:true,
-    }
+    },
+    userId: {
+        type: String,
+      },
+      listname:{
+        type:String,
+      }
 })
 const task1=mongoose.model("Task",form2)
 module.exports= task1;

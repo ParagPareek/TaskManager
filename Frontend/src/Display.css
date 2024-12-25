@@ -5,9 +5,8 @@
   padding: 20px;
   background: #f4f5f7;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
-  white-space: nowrap; /* Horizontal scroll for lists */
 }
 
 /* Headings */
@@ -18,98 +17,113 @@ h3 {
   color: #333;
 }
 
-/* Add List Section */
+/* Add List Button */
 .add-list-button {
   display: inline-block;
-  padding: 10px 20px;
-  background-color: #0079bf;
+  padding: 12px 20px;
+  background-color: #007bff;
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-list-button:hover {
-  background-color: #026aa7;
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
-/* Add List Input */
+/* Add List Input Container */
 .add-list-container {
   display: inline-block;
-  vertical-align: top;
-  padding: 10px;
-  width: 270px;
-  background-color: #ebecf0;
-  border-radius: 5px;
-  border: none;
-  white-space: normal;
-  margin-right: 20px;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
 }
 
 .add-list-container input {
-  padding: 10px;
-  width: 100%;
+  padding: 12px;
+  width: calc(100% - 20px);
+  border: 2px solid #ddd;
+  border-radius: 5px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
   margin-bottom: 10px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-list-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .add-list-container button {
-  padding: 10px;
-  width: 100%;
-  background-color: #5aac44;
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #28a745;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
+  font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .add-list-container button:hover {
-  background-color: #519839;
+  background-color: #218838;
 }
 
 /* Lists Wrapper */
 .lists-wrapper {
   display: flex;
   gap: 20px;
-  white-space: nowrap;
   overflow-x: auto;
   padding-bottom: 20px;
+  scroll-behavior: smooth;
+}
+
+.lists-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.lists-wrapper::-webkit-scrollbar-thumb {
+  background-color: #c1c7d0;
+  border-radius: 4px;
+}
+
+.lists-wrapper::-webkit-scrollbar-track {
+  background-color: #ebecf0;
 }
 
 /* List Item */
 .list-item {
-  display: inline-block;
-  vertical-align: top;
-  width: 270px;
+  flex-shrink: 0;
+  width: 300px;
   padding: 15px;
   background-color: #ebecf0;
-  border-radius: 5px;
-  white-space: normal;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-  margin-right: 20px;
-  transition: all 0.3s ease;
-  min-height: 100px;
-  max-height: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 .list-item:hover {
+  transform: translateY(-5px);
   background-color: #e2e4e9;
 }
 
 .list-item h4 {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 15px;
   color: #333;
+  text-align: center;
 }
 
-/* Task Input */
+/* Task Input Section */
 .task-input-container {
   margin-top: 15px;
 }
@@ -117,50 +131,72 @@ h3 {
 .task-input-container input {
   padding: 10px;
   width: calc(100% - 100px);
+  border: 2px solid #ddd;
+  border-radius: 5px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.task-input-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .task-input-container button {
   padding: 10px;
   margin-left: 10px;
-  background-color: #5aac44;
+  background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .task-input-container button:hover {
-  background-color: #519839;
+  background-color: #0056b3;
 }
 
 /* Tasks Section */
 .tasks-container {
   margin-top: 15px;
   padding: 10px;
-  background-color: #ffffff;
-  border-radius: 3px;
-  max-height: 300px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  max-height: 200px;
   overflow-y: auto;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 }
 
 .task-item {
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #ffffff;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.15);
+  background-color: #f8f9fa;
+  border-radius: 5px;
   font-size: 14px;
-  cursor: grab;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
 
 .task-item:hover {
-  background-color: #f4f5f7;
+  background-color: #e9ecef;
+}
+
+/* Change Color Input */
+.list-item input[type="color"] {
+  display: block;
+  margin: 10px auto;
+  cursor: pointer;
+  border: none;
+  width: 40px;
+  height: 30px;
+  border-radius: 5px;
+  transition: transform 0.2s ease;
+}
+
+.list-item input[type="color"]:hover {
+  transform: scale(1.1);
 }
 
 /* Empty State */
@@ -168,38 +204,4 @@ p {
   color: #6c757d;
   font-style: italic;
   text-align: center;
-}
-
-/* Scrollbar styling */
-.lists-wrapper::-webkit-scrollbar {
-  height: 10px;
-}
-
-.lists-wrapper::-webkit-scrollbar-thumb {
-  background-color: #c1c7d0;
-  border-radius: 10px;
-}
-
-.lists-wrapper::-webkit-scrollbar-track {
-  background-color: #ebecf0;
-}
-/* Add Task Button */
-.list-item button {
-  margin-top: 10px;
-  padding: 8px 15px;
-  background-color: #00c2e0; /* Set custom color */
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.1s ease; /* Add smooth transition */
-  font-size: 14px;
-  font-weight: bold;
-  display: block;
-  width: 100%;
-}
-
-.list-item button:hover {
-  background-color: #00a3c4; /* Darken the button on hover */
-  transform: scale(1.02); /* Slightly enlarge button on hover */
 }

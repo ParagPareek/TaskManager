@@ -18,3 +18,19 @@ exports.getListsByUser = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+  exports.updatecolor =async(req,res)=>{
+    const{listID,color}=req.body ;
+    try {
+      const updatedList = await ListModel.findByIdAndUpdate(
+        listID, 
+        { color }, 
+        { new: true } // Return the updated list after the operation
+      );
+      if (!updatedList) {
+        return res.status(404).json({ error: "List not found" });
+      }
+      res.status(200).json(updatedList); // Return the updated list
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }

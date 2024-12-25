@@ -7,6 +7,11 @@ const list= mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"NewData"
+    },
+    color:{
+        type: String,
+        default: '#f9f9f9',
+
     }
 })
 const ListM= mongoose.model("Lists",list)
