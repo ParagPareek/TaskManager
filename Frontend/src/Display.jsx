@@ -8,6 +8,8 @@ const Display = () => {
   const [taskName, setTaskName] = useState("");
   const [activeListId, setActiveListId] = useState(null);
   const [isAddingList, setIsAddingList] = useState(false);
+  const[pop, setPop]=useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
   const userId = localStorage.getItem("userId");
 
@@ -71,7 +73,8 @@ const Display = () => {
   };
 
   // Add a new task
-  const addTask = async (listID) => {
+  const addTask = async (list) => {
+    console.log(list)
     if (!taskName.trim()) {
       alert("Task name cannot be empty.");
       return;
@@ -79,11 +82,15 @@ const Display = () => {
     try {
       await axios.post("http://localhost:8080/task/create", {
         name: taskName,
-        listID,
+        listID: list._id,
+        userId,
+        listname: list.name,
+        lable: list.color,
       });
+      console.log("lossssssssghghghghssssssssssss", list);
       setTaskName("");
       setActiveListId(null);
-      fetchTasks(listID);
+      fetchTasks(list._id);
     } catch (error) {
       console.error("Error adding task:", error);
     }
@@ -115,7 +122,15 @@ const Display = () => {
       );
     }
   };
-
+  const handleOpenTaskOptions = (e) => {
+    alert("ddddddddddddddddddddddddddddddddddddddddddd")
+    const rect = e.target.getBoundingClientRect();
+    setMenuPosition({
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
+    setPop(true);
+  };
   return (
     <div className="display-container">
       <button className="add-list-button" onClick={() => setIsAddingList(true)}>
@@ -139,9 +154,12 @@ const Display = () => {
       <div className="lists-wrapper">
         {lists.map((list) => (
           <div key={list._id} className="list-item" style={{ backgroundColor: list.color }}>
-            <h4>{list.name}</h4>
+            <div className="hello">
+              <h4>{list.name}</h4>
+              <button onClick={(e)=>handleOpenTaskOptions(e)}>...</button>
 
-            <label>Change Color:</label>
+            </div>
+                <label>Change Color:</label>
             <input
               type="color"
               value={list.color || "#FFFFFF"}  // Default to white if no color
@@ -168,7 +186,7 @@ const Display = () => {
                   onChange={(e) => setTaskName(e.target.value)}
                   placeholder="Enter task name"
                 />
-                <button onClick={() => addTask(list._id)}>Save Task</button>
+                <button onClick={() => addTask(list)}>Save Task</button>
               </div>
             )}
 
@@ -185,6 +203,56 @@ const Display = () => {
             </div>
           </div>
         ))}
+        {
+          pop && (
+            <>
+            <div
+  className="backdrop"
+  onClick={() => setOpenListOptions(false)}
+>
+  <div
+    className="modal-container"
+    style={{
+      top:` ${menuPosition.top}px`,
+      left:` ${menuPosition.left}px`,
+    }}
+    onClick={(e) => e.stopPropagation()}
+  >
+    <div className="modal-header">
+      <span>List Options</span>
+      <button onClick={() => setOpenListOptions(false)}>
+        <FontAwesomeIcon icon={faTimes} />
+      </button>
+    </div>
+
+    <div className="list-option">
+      <label htmlFor="color">Change Color -</label>
+      <div
+        className="color-picker"
+        // style={{
+        //   backgroundColor: ${list.listColor},
+        // }}
+      >
+        <input
+          id="color"
+          type="color"
+          // value={list.listColor}
+          // onChange={(e) => updateListColor(list._id, e.target.value)}
+        />
+      </div>
+    </div>
+
+    <button
+      // onClick={() => handleDeletelist(list._id)}
+      className="delete-button"
+    >
+      Delete List
+    </button>
+</div>
+</div>
+            </>
+          )
+        }
       </div>
     </div>
   );

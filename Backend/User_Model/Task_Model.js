@@ -13,6 +13,9 @@ const form2=mongoose.Schema({
       },
       listname:{
         type:String,
+      },
+      lable:{
+        type:String,
       }
 })
 const task1=mongoose.model("Task",form2)

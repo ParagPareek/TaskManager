@@ -14,7 +14,7 @@ const Table = () => {
         
       );
       setTaskItem(response.data);
-      console.log(response.data);
+      console.log("moooooooooooooooooooooooooooo",response.data);
     } catch (error) {
       console.log("error", error);
     }
@@ -41,6 +41,7 @@ const Table = () => {
               <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.listname}</td>
+                <td>{item.lable}</td>
                 {/* Uncomment this section when labels and list are available */}
                 {/* <td>{item.list}</td>
                 <td>

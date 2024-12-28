@@ -205,3 +205,86 @@ p {
   font-style: italic;
   text-align: center;
 }
+.hello{
+  display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.hello button{
+  height: 30px;
+width: 30px;
+}
+/* Backdrop */
+.backdrop {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Modal container */
+.modal-container {
+  position: absolute;
+  background-color: #1f2937; /* Tailwind's bg-gray-800 */
+  color: #cbd5e1; /* Tailwind's text-slate-300 */
+  min-width: 13rem; /* 52 / 4 = 13rem */
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-lg */
+  padding: 0.75rem; /* Tailwind's p-3 */
+}
+
+/* Modal header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #374151; /* Tailwind's border-gray-700 */
+  padding-bottom: 0.5rem; /* Tailwind's pb-2 */
+  padding-left: 0.5rem; /* Tailwind's px-2 */
+  padding-right: 0.5rem; /* Tailwind's px-2 */
+}
+
+/* List options */
+.list-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0; /* Tailwind's my-4 */
+  padding: 0.25rem 0.5rem; /* Tailwind's px-2 py-1 */
+  border-radius: 0.125rem; /* Tailwind's rounded-sm */
+  transition: background-color 0.2s;
+}
+
+.list-option:hover {
+  background-color: #6b7280; /* Tailwind's hover:bg-gray-500 */
+}
+
+/* Color picker */
+.color-picker {
+  width: 1.75rem; /* Tailwind's w-7 */
+  height: 1.75rem; /* Tailwind's h-7 */
+  border-radius: 9999px; /* Tailwind's rounded-full */
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.color-picker input {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Delete button */
+.delete-button {
+  margin-bottom: 1rem; /* Tailwind's mb-4 */
+  padding: 0.25rem 0.5rem; /* Tailwind's px-2 py-1 */
+  border-radius: 0.125rem; /* Tailwind's rounded-sm */
+  transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+  background-color: #6b7280; /* Tailwind's hover:bg-gray-500 */
+}
